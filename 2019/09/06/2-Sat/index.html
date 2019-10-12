@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<link href="https://cdn.bootcss.com/KaTeX/0.7.1/katex.min.css" rel="stylesheet">
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="2-SAT is a special case of Boolean Satisfiability Problem and can be solved in polynomial time.   Boolean Satisfiability Problem Boolean Satisfiability or simply SAT is the problem of determining if">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2-Satisfiability">
+<meta property="og:url" content="http://returnhao.github.io/2019/09/06/2-Sat/index.html">
+<meta property="og:site_name" content="Return&#39;s Blog">
+<meta property="og:description" content="2-SAT is a special case of Boolean Satisfiability Problem and can be solved in polynomial time.   Boolean Satisfiability Problem Boolean Satisfiability or simply SAT is the problem of determining if">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-09-10T01:59:42.896Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2-Satisfiability">
+<meta name="twitter:description" content="2-SAT is a special case of Boolean Satisfiability Problem and can be solved in polynomial time.   Boolean Satisfiability Problem Boolean Satisfiability or simply SAT is the problem of determining if">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://returnhao.github.io/2019/09/06/2-Sat/">
+
+
+
+
+
+  <title>2-Satisfiability | Return's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Return's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://returnhao.github.io/2019/09/06/2-Sat/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Patrick Fang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Return's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">2-Satisfiability</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-06T14:42:54+09:00">
+                2019-09-06
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2019-09-10T10:59:42+09:00">
+                2019-09-10
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>2-SAT is a special case of Boolean Satisfiability Problem and can be solved<br>
+in polynomial time.</p>
+</blockquote>
+<h2 id="boolean-satisfiability-problem"><a class="markdownIt-Anchor" href="#boolean-satisfiability-problem"></a> Boolean Satisfiability Problem</h2>
+<p>Boolean Satisfiability or simply SAT is the problem of determining if a Boolean formula is satisfiable or unsatisfiable.</p>
+<a id="more"></a>
+<h3 id="satisfiable"><a class="markdownIt-Anchor" href="#satisfiable"></a> Satisfiable :</h3>
+<p>If the Boolean variables can be assigned values such that the formula turns out to be TRUE, then we say that the formula is satisfiable.</p>
+<h3 id="unsatisfiable"><a class="markdownIt-Anchor" href="#unsatisfiable"></a> Unsatisfiable :</h3>
+<p>If it is not possible to assign such values, then we say that the formula is unsatisfiable.</p>
+<h3 id="examples"><a class="markdownIt-Anchor" href="#examples"></a> Examples :</h3>
+<ul>
+<li>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>F</mi><mo>=</mo><mi>A</mi><mo>∧</mo><mover accent="true"><mrow><mi>B</mi></mrow><mo>¯</mo></mover></mrow><annotation encoding="application/x-tex">F = A\land\bar{B}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:0.8201099999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="mrel">=</span><span class="mord mathit">A</span><span class="mbin">∧</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.05017em;">B</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span>, is satisfiable, because A = TRUE and B = FALSE makes F = TRUE.</p>
+</li>
+<li>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>G</mi><mo>=</mo><mi>A</mi><mo>∧</mo><mover accent="true"><mrow><mi>A</mi></mrow><mo>¯</mo></mover></mrow><annotation encoding="application/x-tex">G = A\land\bar{A}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:0.8201099999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">G</span><span class="mrel">=</span><span class="mord mathit">A</span><span class="mbin">∧</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit">A</span></span></span><span style="top:-0.25233em;margin-left:0.27778em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span>, is unsatisfiable, because:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">A</th>
+<th style="text-align:center"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>A</mi></mrow><mo>¯</mo></mover></mrow><annotation encoding="application/x-tex">\bar{A}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:0.8201099999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit">A</span></span></span><span style="top:-0.25233em;margin-left:0.27778em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span></th>
+<th style="text-align:center">G</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">TRUE</td>
+<td style="text-align:center">FALSE</td>
+<td style="text-align:center">FALSE</td>
+</tr>
+<tr>
+<td style="text-align:center">FALSE</td>
+<td style="text-align:center">TRUE</td>
+<td style="text-align:center">FALSE</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<p>To understand this better, first let us see what is Conjunctive Normal Form (CNF) or also known as Product of Sums (POS).</p>
+<p><strong>CNF</strong> : CNF is a conjunction (AND) of clauses, where every clause is a disjunction (OR).</p>
+<p>Now, 2-SAT limits the problem of SAT to only those Boolean formula which are expressed as a CNF with every clause having only <strong>2 terms</strong> (also called <strong>2-CNF</strong> ).</p>
+<p>Thus, Problem of 2-Satisfiabilty can be stated as:</p>
+<p><strong>Given CNF with each clause having only 2 terms, is it possible to assign such values to the variables so that the CNF is TRUE?</strong></p>
+<h2 id="approach-for-2-sat-problem"><a class="markdownIt-Anchor" href="#approach-for-2-sat-problem"></a> Approach for 2-SAT Problem</h2>
+<p>For the CNF value to come TRUE, value of every clause should be TRUE. Let one of the clause be <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>A</mi><mo>∨</mo><mi>B</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(A\lor B)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mopen">(</span><span class="mord mathit">A</span><span class="mbin">∨</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span>.</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>A</mi><mo>∨</mo><mi>B</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(A\lor B)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mopen">(</span><span class="mord mathit">A</span><span class="mbin">∨</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span> = TRUE</p>
+<ul>
+<li>if A = FALSE, B must be TRUE i.e. <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mover accent="true"><mrow><mi>A</mi></mrow><mo>¯</mo></mover><mo>⇒</mo><mi>B</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(\bar{A}\Rightarrow B)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:1.07011em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mopen">(</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit">A</span></span></span><span style="top:-0.25233em;margin-left:0.27778em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">⇒</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span></li>
+<li>if B = FALSE, A must be TRUE i.e. <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mover accent="true"><mrow><mi>B</mi></mrow><mo>¯</mo></mover><mo>⇒</mo><mi>A</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(\bar{B}\Rightarrow A)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:1.07011em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mopen">(</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.05017em;">B</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">⇒</span><span class="mord mathit">A</span><span class="mclose">)</span></span></span></span></li>
+</ul>
+<p>Thus,</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>A</mi><mo>∨</mo><mi>B</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(A\lor B)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mopen">(</span><span class="mord mathit">A</span><span class="mbin">∨</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span> = TRUE is equivalent to <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mover accent="true"><mrow><mi>A</mi></mrow><mo>¯</mo></mover><mo>⇒</mo><mi>B</mi><mo>)</mo><mo>∧</mo><mo>(</mo><mover accent="true"><mrow><mi>B</mi></mrow><mo>¯</mo></mover><mo>⇒</mo><mi>A</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(\bar{A}\Rightarrow B)\land (\bar{B}\Rightarrow A)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:1.07011em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mopen">(</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit">A</span></span></span><span style="top:-0.25233em;margin-left:0.27778em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">⇒</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mbin">∧</span><span class="mopen">(</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.05017em;">B</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">⇒</span><span class="mord mathit">A</span><span class="mclose">)</span></span></span></span></p>
+<p>Now, we can express the CNF as an Implication. So, we create an Implication Graph which has 2 edges for every clause of the CNF.</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>A</mi><mo>∨</mo><mi>B</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(A\lor B)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mopen">(</span><span class="mord mathit">A</span><span class="mbin">∨</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span> is expressed in Implication Graph as <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>e</mi><mi>d</mi><mi>g</mi><mi>e</mi><mo>(</mo><mover accent="true"><mrow><mi>A</mi></mrow><mo>¯</mo></mover><mo>⇒</mo><mi>B</mi><mo>)</mo><mi>e</mi><mi>d</mi><mi>g</mi><mi>e</mi><mo>(</mo><mover accent="true"><mrow><mi>B</mi></mrow><mo>¯</mo></mover><mo>⇒</mo><mi>A</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">edge(\bar{A}\Rightarrow B) edge(\bar{B}\Rightarrow A)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:1.07011em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit">e</span><span class="mord mathit">d</span><span class="mord mathit" style="margin-right:0.03588em;">g</span><span class="mord mathit">e</span><span class="mopen">(</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit">A</span></span></span><span style="top:-0.25233em;margin-left:0.27778em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">⇒</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mord mathit">e</span><span class="mord mathit">d</span><span class="mord mathit" style="margin-right:0.03588em;">g</span><span class="mord mathit">e</span><span class="mopen">(</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.05017em;">B</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">⇒</span><span class="mord mathit">A</span><span class="mclose">)</span></span></span></span></p>
+<p>Thus, for a Boolean formula with ‘m’ clauses, we make an Implication Graph with:</p>
+<ul>
+<li>2 edges for every clause i.e. ‘2m’ edges.</li>
+<li>1 node for every Boolean variable involved in the Boolean formula.</li>
+</ul>
+<p>Note: The implication (if A then B) is equivalent to its contrapositive (if <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>B</mi></mrow><mo>¯</mo></mover></mrow><annotation encoding="application/x-tex">\bar{B}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:0.8201099999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.05017em;">B</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> then <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>A</mi></mrow><mo>¯</mo></mover></mrow><annotation encoding="application/x-tex">\bar{A}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:0.8201099999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit">A</span></span></span><span style="top:-0.25233em;margin-left:0.27778em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span>).</p>
+<p>Now, consider the following cases:</p>
+<ul>
+<li>
+<p>CASE 1: If <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>e</mi><mi>d</mi><mi>g</mi><mi>e</mi><mo>(</mo><mi>X</mi><mo>⇒</mo><mover accent="true"><mrow><mi>X</mi></mrow><mo>¯</mo></mover><mo>)</mo></mrow><annotation encoding="application/x-tex">edge(X \Rightarrow \bar{X})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:1.07011em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit">e</span><span class="mord mathit">d</span><span class="mord mathit" style="margin-right:0.03588em;">g</span><span class="mord mathit">e</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.07847em;">X</span><span class="mrel">⇒</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.07847em;">X</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mclose">)</span></span></span></span> exists in the graph<br>
+This means <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>X</mi><mo>⇒</mo><mover accent="true"><mrow><mi>X</mi></mrow><mo>¯</mo></mover><mo>)</mo></mrow><annotation encoding="application/x-tex">(X \Rightarrow \bar{X})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:1.07011em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.07847em;">X</span><span class="mrel">⇒</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.07847em;">X</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mclose">)</span></span></span></span><br>
+If X = TRUE, <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>X</mi></mrow><mo>¯</mo></mover></mrow><annotation encoding="application/x-tex">\bar{X}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:0.8201099999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.07847em;">X</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> = TRUE, which is a contradiction.<br>
+But if X = FALSE, there are no implication constraints.<br>
+Thus, X = FALSE i.e. <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>X</mi></mrow><mo>¯</mo></mover></mrow><annotation encoding="application/x-tex">\bar{X}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:0.8201099999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.07847em;">X</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> = TRUE</p>
+</li>
+<li>
+<p>CASE 2: If <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>e</mi><mi>d</mi><mi>g</mi><mi>e</mi><mo>(</mo><mover accent="true"><mrow><mi>X</mi></mrow><mo>¯</mo></mover><mo>⇒</mo><mi>X</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">edge(\bar{X} \Rightarrow X)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:1.07011em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit">e</span><span class="mord mathit">d</span><span class="mord mathit" style="margin-right:0.03588em;">g</span><span class="mord mathit">e</span><span class="mopen">(</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.07847em;">X</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">⇒</span><span class="mord mathit" style="margin-right:0.07847em;">X</span><span class="mclose">)</span></span></span></span> exists in the graph<br>
+This means <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mover accent="true"><mrow><mi>X</mi></mrow><mo>¯</mo></mover><mo>⇒</mo><mi>X</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(\bar{X} \Rightarrow X)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:1.07011em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mopen">(</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.07847em;">X</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">⇒</span><span class="mord mathit" style="margin-right:0.07847em;">X</span><span class="mclose">)</span></span></span></span><br>
+If <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>X</mi></mrow><mo>¯</mo></mover></mrow><annotation encoding="application/x-tex">\bar{X}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:0.8201099999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.07847em;">X</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> = TRUE, X = TRUE, which is a contradiction.<br>
+But if <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>X</mi></mrow><mo>¯</mo></mover></mrow><annotation encoding="application/x-tex">\bar{X}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:0.8201099999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.07847em;">X</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> = FALSE, there are no implication constraints.<br>
+Thus, <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>X</mi></mrow><mo>¯</mo></mover></mrow><annotation encoding="application/x-tex">\bar{X}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:0.8201099999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.07847em;">X</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> = FALSE i.e. X = TRUE</p>
+</li>
+<li>
+<p>If <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>e</mi><mi>d</mi><mi>g</mi><mi>e</mi><mo>(</mo><mi>X</mi><mo>⇒</mo><mover accent="true"><mrow><mi>X</mi></mrow><mo>¯</mo></mover><mo>)</mo><mi mathvariant="normal">&amp;</mi><mi>e</mi><mi>d</mi><mi>g</mi><mi>e</mi><mo>(</mo><mover accent="true"><mrow><mi>X</mi></mrow><mo>¯</mo></mover><mo>⇒</mo><mi>X</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">edge(X \Rightarrow \bar{X}) \&amp; edge(\bar{X} \Rightarrow X)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:1.07011em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit">e</span><span class="mord mathit">d</span><span class="mord mathit" style="margin-right:0.03588em;">g</span><span class="mord mathit">e</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.07847em;">X</span><span class="mrel">⇒</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.07847em;">X</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mclose">)</span><span class="mord mathrm">&amp;</span><span class="mord mathit">e</span><span class="mord mathit">d</span><span class="mord mathit" style="margin-right:0.03588em;">g</span><span class="mord mathit">e</span><span class="mopen">(</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.07847em;">X</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">⇒</span><span class="mord mathit" style="margin-right:0.07847em;">X</span><span class="mclose">)</span></span></span></span> both exist in the graph<br>
+One edge requires X to be TRUE and the other one requires X to be FALSE.<br>
+Thus, there is no possible assignment in such a case.</p>
+</li>
+</ul>
+<h3 id="conclusion"><a class="markdownIt-Anchor" href="#conclusion"></a> CONCLUSION:</h3>
+<p>If any two variables X and <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>X</mi></mrow><mo>¯</mo></mover></mrow><annotation encoding="application/x-tex">\bar{X}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:0.8201099999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.07847em;">X</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> are on a cycle i.e. path <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mover accent="true"><mrow><mi>A</mi></mrow><mo>¯</mo></mover><mo>⇒</mo><mi>B</mi><mo>)</mo><mi mathvariant="normal">&amp;</mi><mi>p</mi><mi>a</mi><mi>t</mi><mi>h</mi><mo>(</mo><mover accent="true"><mrow><mi>B</mi></mrow><mo>¯</mo></mover><mo>⇒</mo><mi>A</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(\bar{A} \Rightarrow B) \&amp; path(\bar{B} \Rightarrow A)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:1.07011em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mopen">(</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit">A</span></span></span><span style="top:-0.25233em;margin-left:0.27778em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">⇒</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mord mathrm">&amp;</span><span class="mord mathit">p</span><span class="mord mathit">a</span><span class="mord mathit">t</span><span class="mord mathit">h</span><span class="mopen">(</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.05017em;">B</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">⇒</span><span class="mord mathit">A</span><span class="mclose">)</span></span></span></span> both exists, then the CNF is unsatisfiable. Otherwise, there is a possible assignment and the CNF is satisfiable.<br>
+Note here that, we use path due to the following property of implication:<br>
+If we have <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>A</mi><mo>⇒</mo><mi>B</mi><mo>)</mo><mi mathvariant="normal">&amp;</mi><mo>(</mo><mi>B</mi><mo>⇒</mo><mi>C</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(A \Rightarrow B) \&amp; (B \Rightarrow C)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mopen">(</span><span class="mord mathit">A</span><span class="mrel">⇒</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mord mathrm">&amp;</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mrel">⇒</span><span class="mord mathit" style="margin-right:0.07153em;">C</span><span class="mclose">)</span></span></span></span>,  then <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi><mo>⇒</mo><mi>C</mi></mrow><annotation encoding="application/x-tex">A \Rightarrow C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">A</span><span class="mrel">⇒</span><span class="mord mathit" style="margin-right:0.07153em;">C</span></span></span></span><br>
+Thus, if we have a path in the Implication Graph, that is pretty much same as having a direct edge.</p>
+<h3 id="conclusion-from-implementation-point-of-view"><a class="markdownIt-Anchor" href="#conclusion-from-implementation-point-of-view"></a> CONCLUSION FROM IMPLEMENTATION POINT OF VIEW:</h3>
+<p>If both X and <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>X</mi></mrow><mo>¯</mo></mover></mrow><annotation encoding="application/x-tex">\bar{X}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:0.8201099999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.07847em;">X</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> lie in the same SCC (Strongly Connected Component), the CNF is unsatisfiable.<br>
+A Strongly Connected Component of a directed graph has nodes such that every node can be reach from every another node in that SCC.<br>
+Now, if X and <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>X</mi></mrow><mo>¯</mo></mover></mrow><annotation encoding="application/x-tex">\bar{X}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:0.8201099999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.07847em;">X</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> lie on the same SCC, we will definitely have <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>p</mi><mi>a</mi><mi>t</mi><mi>h</mi><mo>(</mo><mover accent="true"><mrow><mi>A</mi></mrow><mo>¯</mo></mover><mo>⇒</mo><mi>B</mi><mo>)</mo><mi mathvariant="normal">&amp;</mi><mi>p</mi><mi>a</mi><mi>t</mi><mi>h</mi><mo>(</mo><mover accent="true"><mrow><mi>B</mi></mrow><mo>¯</mo></mover><mo>⇒</mo><mi>A</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">path(\bar{A} \Rightarrow B) \&amp; path(\bar{B} \Rightarrow A)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:1.07011em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit">p</span><span class="mord mathit">a</span><span class="mord mathit">t</span><span class="mord mathit">h</span><span class="mopen">(</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit">A</span></span></span><span style="top:-0.25233em;margin-left:0.27778em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">⇒</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mord mathrm">&amp;</span><span class="mord mathit">p</span><span class="mord mathit">a</span><span class="mord mathit">t</span><span class="mord mathit">h</span><span class="mopen">(</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.05017em;">B</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">⇒</span><span class="mord mathit">A</span><span class="mclose">)</span></span></span></span> present and hence the conclusion.</p>
+<p>Checking of the SCC can be done in O(E+V) using the Kosaraju’s Algorithm or Tarjan’s Algorithm</p>
+<h2 id="common-construction-notes"><a class="markdownIt-Anchor" href="#common-construction-notes"></a> Common construction notes</h2>
+<p>Beside the example <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>A</mi><mo>∨</mo><mi>B</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(A\lor B)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mopen">(</span><span class="mord mathit">A</span><span class="mbin">∨</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span> we mentioned, there still exist some more expressions.</p>
+<p>Mostly they can be implemented by simple logical based expression easily. For example,</p>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>A</mi><mo>∧</mo><mi>B</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(A\land B)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mopen">(</span><span class="mord mathit">A</span><span class="mbin">∧</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span>=TRUE means both A and B shall be TRUE i.e. <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>e</mi><mi>d</mi><mi>g</mi><mi>e</mi><mo>(</mo><mover accent="true"><mrow><mi>A</mi></mrow><mo>¯</mo></mover><mo>⇒</mo><mi>A</mi><mo>)</mo><mi mathvariant="normal">&amp;</mi><mi>e</mi><mi>d</mi><mi>g</mi><mi>e</mi><mo>(</mo><mover accent="true"><mrow><mi>B</mi></mrow><mo>¯</mo></mover><mo>⇒</mo><mi>B</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">edge(\bar{A}\Rightarrow A) \&amp; edge(\bar{B}\Rightarrow B)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:1.07011em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit">e</span><span class="mord mathit">d</span><span class="mord mathit" style="margin-right:0.03588em;">g</span><span class="mord mathit">e</span><span class="mopen">(</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit">A</span></span></span><span style="top:-0.25233em;margin-left:0.27778em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">⇒</span><span class="mord mathit">A</span><span class="mclose">)</span><span class="mord mathrm">&amp;</span><span class="mord mathit">e</span><span class="mord mathit">d</span><span class="mord mathit" style="margin-right:0.03588em;">g</span><span class="mord mathit">e</span><span class="mopen">(</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.05017em;">B</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">⇒</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span></li>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">¬</mi><mo>(</mo><mi>A</mi><mo>∧</mo><mi>B</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">\neg(A\land B)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">¬</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mbin">∧</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span>=TRUE means at least one of A and B shall be FALSE i.e. <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>e</mi><mi>d</mi><mi>g</mi><mi>e</mi><mo>(</mo><mi>B</mi><mo>⇒</mo><mover accent="true"><mrow><mi>A</mi></mrow><mo>¯</mo></mover><mo>)</mo><mi mathvariant="normal">&amp;</mi><mi>e</mi><mi>d</mi><mi>g</mi><mi>e</mi><mo>(</mo><mi>A</mi><mo>⇒</mo><mover accent="true"><mrow><mi>B</mi></mrow><mo>¯</mo></mover><mo>)</mo></mrow><annotation encoding="application/x-tex">edge(B\Rightarrow \bar{A}) \&amp; edge(A\Rightarrow \bar{B})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:1.07011em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit">e</span><span class="mord mathit">d</span><span class="mord mathit" style="margin-right:0.03588em;">g</span><span class="mord mathit">e</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mrel">⇒</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit">A</span></span></span><span style="top:-0.25233em;margin-left:0.27778em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mclose">)</span><span class="mord mathrm">&amp;</span><span class="mord mathit">e</span><span class="mord mathit">d</span><span class="mord mathit" style="margin-right:0.03588em;">g</span><span class="mord mathit">e</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mrel">⇒</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.05017em;">B</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mclose">)</span></span></span></span></li>
+</ul>
+<p>Generally, you can see this graph is symmetric, and this is the basis of its correctness proof.</p>
+<h2 id="solution"><a class="markdownIt-Anchor" href="#solution"></a> Solution</h2>
+<p>Sometimes we need to output one possible solution(Notice there may be exist not only one solution).</p>
+<p>Here we use the conception of <strong>Inverse Graph</strong>, which inversed all directed edges in original graph <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">G</span></span></span></span> to a new graph <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>G</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">G_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit">G</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span>.</p>
+<p>Since we have eliminate all possible circle in G by SCC algorithm, we can determine <strong>Topological Order</strong> of this new directed acyclic graph G’. Topological Order reflect the affect factor of all the points. Those points with smaller order fact more points than those larger order points. Specifically, consider <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>X</mi><mo>→</mo><mover accent="true"><mrow><mi>X</mi></mrow><mo>¯</mo></mover></mrow><annotation encoding="application/x-tex">X\rightarrow \bar{X}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:0.8201099999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.07847em;">X</span><span class="mrel">→</span><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.07847em;">X</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span>, which means if we choose X, we shall also choose <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>X</mi></mrow><mo>¯</mo></mover></mrow><annotation encoding="application/x-tex">\bar{X}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:0.8201099999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.07847em;">X</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span>. However, from our conclusion, this edge means we shall never choose X. Therefore, those who with larger order(<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mover accent="true"><mrow><mi>X</mi></mrow><mo>¯</mo></mover></mrow><annotation encoding="application/x-tex">\bar{X}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8201099999999999em;"></span><span class="strut bottom" style="height:0.8201099999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord accent"><span class="vlist"><span style="top:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="mord textstyle cramped"><span class="mord mathit" style="margin-right:0.07847em;">X</span></span></span><span style="top:-0.25233em;margin-left:0.16668em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="accent-body"><span>¯</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span>) shall be consider first.</p>
+<p>Back to our SCC Algorithm, Kosaraju &amp; Tarjan, both generate topological order during the process with different generate rules — Tarjan’s SCC numbers equal to <strong>Inverse Graph’s topological order</strong> and Kosaraju, generate SCC numbers as <strong>Origin Graph</strong>.</p>
+<p>Hence, for Tarjan, you should choose those with smaller SCC order numbers and for Kosaraju, you should choose those with larger SCC order numbers.</p>
+<h2 id="template-code"><a class="markdownIt-Anchor" href="#template-code"></a> Template Code</h2>
+<h3 id="kosaraju"><a class="markdownIt-Anchor" href="#kosaraju"></a> Kosaraju</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">/* Start of 2-Sat */</span><br><span class="line">// 2-Satisfiability (2-SAT) Problem, Kosaraju’s algorithm, O(V+E)</span><br><span class="line">// Set &apos;N&apos; as ORIGINAL points</span><br><span class="line">// Vertices are numbered 1..N for true states(or state a)</span><br><span class="line">// False state(or state b) of the variable i is i + N</span><br><span class="line">// 0&lt;=&apos;val[i]&apos;&lt;=1 is the value for binary variable i in 2-Sat</span><br><span class="line">// 1&lt;=&apos;belong[i]&apos;&lt;=2*n is scc number of vertex i.</span><br><span class="line">// Since we use Kosaraju here, for specific variable i,</span><br><span class="line">// we choose the larger scc number state. (1 represent True, 0 represent False)</span><br><span class="line"> </span><br><span class="line">int N, counter=0, belong[Maxn];</span><br><span class="line">vector&lt;int&gt; Edge[Maxn], revEdge[Maxn], Arya, Sansa;</span><br><span class="line">stack&lt;int&gt; Stack;</span><br><span class="line">bool visited[Maxn], val[Maxn];</span><br><span class="line"> </span><br><span class="line">inline int other(int v)&#123; return (v&lt;=n)?(v+n):(v-n); &#125;</span><br><span class="line">inline void Insert(int u, int v) &#123; Edge[u].push_back(v); revEdge[v].push_back(u); &#125;</span><br><span class="line"> </span><br><span class="line">inline void fillOrder(int u)</span><br><span class="line">&#123;</span><br><span class="line">    visited[u]=true;</span><br><span class="line">    </span><br><span class="line">    for (auto v : Edge[u])</span><br><span class="line">        if (!visited[v]) fillOrder(v);</span><br><span class="line">    </span><br><span class="line">    Stack.push(u);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">inline void DfsUtil(int u)</span><br><span class="line">&#123;</span><br><span class="line">    visited[u]=true;</span><br><span class="line">    </span><br><span class="line">    for (auto v : revEdge[u])</span><br><span class="line">        if (!visited[v]) DfsUtil(v);</span><br><span class="line">    </span><br><span class="line">    belong[u]=counter;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">inline bool is2Satisfiable()</span><br><span class="line">&#123;</span><br><span class="line">    for (int i=1; i&lt;=(N&lt;&lt;1); i++) visited[i]=false;</span><br><span class="line">    for (int i=1; i&lt;=(N&lt;&lt;1); i++)</span><br><span class="line">        if (!visited[i]) fillOrder(i);</span><br><span class="line">    </span><br><span class="line">    for (int i=1; i&lt;=(N&lt;&lt;1); i++) visited[i]=false;</span><br><span class="line">    while (!Stack.empty())</span><br><span class="line">    &#123;</span><br><span class="line">        int u=Stack.top();</span><br><span class="line">        Stack.pop();</span><br><span class="line">        </span><br><span class="line">        if (!visited[u])</span><br><span class="line">        &#123;</span><br><span class="line">            counter++;</span><br><span class="line">            DfsUtil(u);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    for (int i=1; i&lt;=N; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        if (belong[i]==belong[i+N]) return false;</span><br><span class="line">        val[i]=belong[i]&lt;belong[i+N];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">inline void Init(int n)</span><br><span class="line">&#123;</span><br><span class="line">    for (int i=1; i&lt;=(n&lt;&lt;1); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        Edge[i].clear(); revEdge[i].clear();</span><br><span class="line">        belong[i]=val[i]=0;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    N=n;</span><br><span class="line">    counter=0;</span><br><span class="line">&#125;</span><br><span class="line">/* End of 2-Sat */</span><br></pre></td></tr></table></figure>
+<h3 id="tarjan"><a class="markdownIt-Anchor" href="#tarjan"></a> Tarjan</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">/* Start of 2-Sat */</span><br><span class="line">// 2-Satisfiability (2-SAT) Problem, Tarjan, O(V+E)</span><br><span class="line">// Set &apos;N&apos; as ORIGINAL points</span><br><span class="line">// Vertices are numbered 1..N for true states(or state a)</span><br><span class="line">// False state(or state b) of the variable i is i + N</span><br><span class="line">// 0&lt;=&apos;val[i]&apos;&lt;=1 is the value for binary variable i in 2-Sat</span><br><span class="line">// 1&lt;=&apos;belong[i]&apos;&lt;=2*n is scc number of vertex i</span><br><span class="line">// Since we use Tarjan here, for specific variable i,</span><br><span class="line">// we choose the smaller scc number state. (1 represent True, 0 represent False)</span><br><span class="line"></span><br><span class="line">int N, counter=0, belong[Maxn], low[Maxn], dfn[Maxn], Index;</span><br><span class="line">vector&lt;int&gt; Edge[Maxn];</span><br><span class="line">stack&lt;int&gt; Stack;</span><br><span class="line">bool visited[Maxn], val[Maxn], Instack[Maxn];</span><br><span class="line"></span><br><span class="line">inline int other(int v)&#123; return (v&lt;=n)?(v+n):(v-n); &#125;</span><br><span class="line">inline void Insert(int u, int v) &#123; Edge[u].push_back(v); &#125;</span><br><span class="line"></span><br><span class="line">inline void Tarjan(int u)</span><br><span class="line">&#123;</span><br><span class="line">    dfn[u]=low[u]=++Index; Stack.push(u); Instack[u]=1;</span><br><span class="line">    for (auto v : Edge[u])</span><br><span class="line">        if (!dfn[v]) &#123; Tarjan(v); low[u]=min(low[u], low[v]); &#125;</span><br><span class="line">        else if (Instack[v]) low[u]=min(low[u], dfn[v]);</span><br><span class="line">    </span><br><span class="line">    if (dfn[u]==low[u])</span><br><span class="line">    &#123;</span><br><span class="line">        counter++;</span><br><span class="line">        int v;</span><br><span class="line">        do</span><br><span class="line">        &#123;</span><br><span class="line">            v=Stack.top();</span><br><span class="line">            Stack.pop();</span><br><span class="line">            Instack[v]=0;</span><br><span class="line">            belong[v]=counter;</span><br><span class="line">        &#125;while (v^u);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inline bool is2Satisfiable()</span><br><span class="line">&#123;</span><br><span class="line">    for (int i=1; i&lt;=(N&lt;&lt;1); i++) visited[i]=false;</span><br><span class="line">    for (int i=1; i&lt;=(N&lt;&lt;1); i++)</span><br><span class="line">        if (!dfn[i]) Tarjan(i);</span><br><span class="line">    </span><br><span class="line">    for (int i=1; i&lt;=N; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        if (belong[i]==belong[i+N]) return false;</span><br><span class="line">        val[i]=belong[i]&gt;belong[i+N];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inline void Init(int n)</span><br><span class="line">&#123;</span><br><span class="line">    for (int i=1; i&lt;=(n&lt;&lt;1); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        Edge[i].clear();</span><br><span class="line">        belong[i]=val[i]=low[i]=dfn[i]=Instack[i]=0;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    N=n;</span><br><span class="line">    counter=Index=0;</span><br><span class="line">&#125;</span><br><span class="line">/* End of 2-Sat */</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/05/Gallery/" rel="next" title="Gallery项目说明">
+                <i class="fa fa-chevron-left"></i> Gallery项目说明
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/10/RMRC-2013-Solution/" rel="prev" title="RMRC 2013 Solutions">
+                RMRC 2013 Solutions <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Patrick Fang">
+            
+              <p class="site-author-name" itemprop="name">Patrick Fang</p>
+              <p class="site-description motion-element" itemprop="description">How to introduce myself :)</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/returnhao" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fluctuation.h@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://instagram.com/return.hao" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#boolean-satisfiability-problem"><span class="nav-number">1.</span> <span class="nav-text"> Boolean Satisfiability Problem</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#satisfiable"><span class="nav-number">1.1.</span> <span class="nav-text"> Satisfiable :</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#unsatisfiable"><span class="nav-number">1.2.</span> <span class="nav-text"> Unsatisfiable :</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#examples"><span class="nav-number">1.3.</span> <span class="nav-text"> Examples :</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#approach-for-2-sat-problem"><span class="nav-number">2.</span> <span class="nav-text"> Approach for 2-SAT Problem</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#conclusion"><span class="nav-number">2.1.</span> <span class="nav-text"> CONCLUSION:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#conclusion-from-implementation-point-of-view"><span class="nav-number">2.2.</span> <span class="nav-text"> CONCLUSION FROM IMPLEMENTATION POINT OF VIEW:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#common-construction-notes"><span class="nav-number">3.</span> <span class="nav-text"> Common construction notes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#solution"><span class="nav-number">4.</span> <span class="nav-text"> Solution</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#template-code"><span class="nav-number">5.</span> <span class="nav-text"> Template Code</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#kosaraju"><span class="nav-number">5.1.</span> <span class="nav-text"> Kosaraju</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tarjan"><span class="nav-number">5.2.</span> <span class="nav-text"> Tarjan</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Patrick Fang</span>
+
+  
+</div>
+
+
+
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

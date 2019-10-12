@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<link href="https://cdn.bootcss.com/KaTeX/0.7.1/katex.min.css" rel="stylesheet">
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本规范仅针对Unity工程文件的目录架构进行规范化，本规范默认文件名采用Pascal命名方法进行命名，代码部分的规范请参照C#代码规范部分。本规范制定的主要目的是统一标准，完善团队协作、提高沟通效率。在使用过程中，如果大家还遇到本规范不能解决的问题，欢迎发邮件跟作者讨论。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity目录架构规范">
+<meta property="og:url" content="http://returnhao.github.io/2019/08/21/Unity_directory_architecture_Standard/index.html">
+<meta property="og:site_name" content="Return&#39;s Blog">
+<meta property="og:description" content="本规范仅针对Unity工程文件的目录架构进行规范化，本规范默认文件名采用Pascal命名方法进行命名，代码部分的规范请参照C#代码规范部分。本规范制定的主要目的是统一标准，完善团队协作、提高沟通效率。在使用过程中，如果大家还遇到本规范不能解决的问题，欢迎发邮件跟作者讨论。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-09-11T02:37:42.870Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Unity目录架构规范">
+<meta name="twitter:description" content="本规范仅针对Unity工程文件的目录架构进行规范化，本规范默认文件名采用Pascal命名方法进行命名，代码部分的规范请参照C#代码规范部分。本规范制定的主要目的是统一标准，完善团队协作、提高沟通效率。在使用过程中，如果大家还遇到本规范不能解决的问题，欢迎发邮件跟作者讨论。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://returnhao.github.io/2019/08/21/Unity_directory_architecture_Standard/">
+
+
+
+
+
+  <title>Unity目录架构规范 | Return's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Return's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://returnhao.github.io/2019/08/21/Unity_directory_architecture_Standard/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Patrick Fang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Return's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Unity目录架构规范</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-21T14:26:01+09:00">
+                2019-08-21
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2019-09-11T11:37:42+09:00">
+                2019-09-11
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Standard/" itemprop="url" rel="index">
+                    <span itemprop="name">Standard</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Standard/Unity/" itemprop="url" rel="index">
+                    <span itemprop="name">Unity</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>本规范仅针对Unity工程文件的目录架构进行规范化，本规范默认文件名采用<strong>Pascal命名方法</strong>进行命名，代码部分的规范请参照<em>C#代码规范</em>部分。本规范制定的主要目的是统一标准，完善团队协作、提高沟通效率。在使用过程中，如果大家还遇到本规范不能解决的问题，欢迎发邮件跟作者讨论。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="catelogue"><a class="markdownIt-Anchor" href="#catelogue"></a> Catelogue</h2>
+<ul>
+<li>§1. Introduction</li>
+<li>§2. Unity Folder System
+<ul>
+<li>§2.1 <strong>Special Folder Name System</strong></li>
+<li>§2.2 Associating with General Folder Name System</li>
+</ul>
+</li>
+<li>§3. Directory architecture specification
+<ul>
+<li>§3.1 Maintainability</li>
+<li>§3.2 Unity Project’s maintainability</li>
+<li>§3.3 Some Attempts</li>
+<li>§3.4 <strong>Finale</strong></li>
+</ul>
+</li>
+<li>§4. <strong>Some Details</strong></li>
+</ul>
+<h2 id="introduction"><a class="markdownIt-Anchor" href="#introduction"></a> Introduction</h2>
+<p>在探讨目录架构之前，首先我们需要了解Unity的Folder系统。在这之后，我们将探讨几种可行的目录架构思路，并从中分析出一个相对完美的方案。最后是一些细节的界定和补充。</p>
+<h2 id="unity-folder-system"><a class="markdownIt-Anchor" href="#unity-folder-system"></a> Unity Folder System</h2>
+<h3 id="special-folder-name-system"><a class="markdownIt-Anchor" href="#special-folder-name-system"></a> Special Folder Name System</h3>
+<p>本部分主要参照<a href="https://docs.unity3d.com/Manual/SpecialFolders.html" target="_blank" rel="noopener">Special Name</a>编写。</p>
+<p>通常，你可以为你创建的文件夹选择任何你喜欢的名称。但是，有许多文件夹名称，Unity将其解释为一条指令，即应以特殊方式处理文件夹的内容。</p>
+<p>例如，你必须将所有的Editor Scripts放在一个叫<strong>Editor</strong>的文件夹里，才能确保你所想要的效果。</p>
+<p>Unity一共保留了8个不同的项目文件夹名称以指示其中的内容具有特殊用途，它们分别是：</p>
+<ul>
+<li>Assets</li>
+<li>Editor</li>
+<li>Editor default resources</li>
+<li>Gizmos</li>
+<li>Plugins</li>
+<li>Resources</li>
+<li>Standard Assets</li>
+<li>StreamingAssets</li>
+</ul>
+<p>在此，我们选取几个常用的文件夹名进行重点说明。</p>
+<h4 id="assets"><a class="markdownIt-Anchor" href="#assets"></a> Assets</h4>
+<p>主文件夹，包含所有工程需要用到的资源。</p>
+<h4 id="editor"><a class="markdownIt-Anchor" href="#editor"></a> Editor</h4>
+<p>放置在名为Editor的文件夹中的脚本被视为编辑器脚本而不是运行时脚本。</p>
+<h4 id="plugins"><a class="markdownIt-Anchor" href="#plugins"></a> Plugins</h4>
+<p>所有的扩展插件资源，一般为用C/C++编写的native DLLs，用以访问第三方代码库，调用系统资源或其他Unity内置功能。</p>
+<h4 id="resources"><a class="markdownIt-Anchor" href="#resources"></a> Resources</h4>
+<p>一般用来存放需要通过代码初始化/使用的资源。通常被用于按需加载。</p>
+<h4 id="streamingassets"><a class="markdownIt-Anchor" href="#streamingassets"></a> StreamingAssets</h4>
+<p>将文件放在名为StreamingAssets的文件夹中，这样它就可以不加改变地复制到目标平台，然后可以从特定文件夹中获取。</p>
+<p>关于的StreamingAssets的应用及其扩展可以参照<a href="https://docs.unity3d.com/Manual/StreamingAssets.html" target="_blank" rel="noopener">Streaming Assets</a>，在此就不赘述了。</p>
+<h3 id="associating-with-general-folder-name-system"><a class="markdownIt-Anchor" href="#associating-with-general-folder-name-system"></a> Associating with General Folder Name System</h3>
+<p>在进入下一部分之前，我们需要明确每一个特殊文件夹的性质。其中最令我们关心的，是文件系统的灵活性。</p>
+<p>通常情况下，和现有的文件系统一样，同一个名称的文件夹可以被建立多次，只要它们分属在不同的父文件夹下，例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">├── Project1</span><br><span class="line">│   └── Scripts</span><br><span class="line">└── Project2</span><br><span class="line">    └── Scripts</span><br></pre></td></tr></table></figure>
+<p>然而，为了保证访问的有效性，Unity对部分特殊文件夹进行了目录规定：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Quantity</th>
+<th style="text-align:center">Place</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Editor</td>
+<td style="text-align:center">multiple</td>
+<td style="text-align:center">anywhere inside the Assets folder</td>
+</tr>
+<tr>
+<td style="text-align:center">Editor default resources</td>
+<td style="text-align:center">only one</td>
+<td style="text-align:center">root of the Project</td>
+</tr>
+<tr>
+<td style="text-align:center">Gizmos</td>
+<td style="text-align:center">only one</td>
+<td style="text-align:center">root of the Project</td>
+</tr>
+<tr>
+<td style="text-align:center">Plugins</td>
+<td style="text-align:center">only one</td>
+<td style="text-align:center">root of the Project</td>
+</tr>
+<tr>
+<td style="text-align:center">Resources</td>
+<td style="text-align:center">multiple</td>
+<td style="text-align:center">anywhere inside the Assets folder</td>
+</tr>
+<tr>
+<td style="text-align:center">Standard Assets</td>
+<td style="text-align:center">only one</td>
+<td style="text-align:center">root of the Project</td>
+</tr>
+<tr>
+<td style="text-align:center">StreamingAssets</td>
+<td style="text-align:center">only one</td>
+<td style="text-align:center">root of the Project</td>
+</tr>
+</tbody>
+</table>
+<p>可见，除了Editor和Resources之外，其他特殊文件夹均只能存放于<strong>根目录</strong>。</p>
+<h2 id="directory-architecture-specification"><a class="markdownIt-Anchor" href="#directory-architecture-specification"></a> Directory architecture specification</h2>
+<h3 id="maintainability"><a class="markdownIt-Anchor" href="#maintainability"></a> Maintainability</h3>
+<p>在探讨目录架构规范之前，我们应该先了解一下可维护性。</p>
+<p>可维护性是所有软件都应该具备的基本特点，对于任意一个Project，我们需要很快的知道其模块化、测试性、灵活性和可移植性这四个可维护性的基本组成部分的情况，并对软件进行相应的调整。</p>
+<h3 id="unity-projects-maintainability"><a class="markdownIt-Anchor" href="#unity-projects-maintainability"></a> Unity Project’s maintainability</h3>
+<p>Unity在一个标准的Project中，总是会将资源(Assests)和调用(Scenes)分离，不同的Scene用来表示不同的项目场景，它们可以调用同一个位于Assests中的资源。</p>
+<p>可维护性在Unity的直观体现十分明显：包(Packages)的可维护性。开发过程中经常需要进行包的导入和导出，如何快速的导入/导出这个场景，以及这个场景所需要的所有资源，同时不破坏这个大型项目的封装性，这是我们需要探究的。</p>
+<h3 id="some-attempts"><a class="markdownIt-Anchor" href="#some-attempts"></a> Some Attempts</h3>
+<p>熟悉Unity的朋友可能知道，为了更好的整理文件调用资源，一般在Assets都包含Prefabs, Materials, Scripts等一些以Unity Standard Object的名字命名的文件夹，显然，在不存在复用（reuse）的情况下，这种命名可以说是相对最规范的一种了。</p>
+<p>但当整个工程由于不得不复用某些组件而必须整合在一起的时候，这种命名方式就存在缺陷了，每个文件都被乱序的存放在标准命名的文件夹下，同时由于Unity糟糕的创建系统（默认New Scripts的创建路径为Assets/New Scripts.cs)，导致整个工程的维护性很差。</p>
+<p>此时，重新以一种规范整合目录架构就变得亟须了。这里有两种常见的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">(1)</span><br><span class="line">.</span><br><span class="line">├── Prefabs</span><br><span class="line">│   ├── Gallery</span><br><span class="line">│   │   ├── Arrow.prefab</span><br><span class="line">│   │   └── PicWrapper.prefab</span><br><span class="line">│   └── Billboard</span><br><span class="line">│       ├── Arrow.prefab</span><br><span class="line">│       └── Billboarder.prefab</span><br><span class="line">├── Resources</span><br><span class="line">│   └── Gallery</span><br><span class="line">│   	└── Pictures</span><br><span class="line">│       	└── Background</span><br><span class="line">├── Scripts</span><br><span class="line">│   ├── Gallery</span><br><span class="line">│   │   ├── Gallery.cs</span><br><span class="line">│   │   └── SceneGenerator.cs</span><br><span class="line">│   └── Billboard</span><br><span class="line">│       ├── BillboardController.cs</span><br><span class="line">│       └── CameraController.cs</span><br><span class="line">└── Scenes</span><br><span class="line">        ├── Gallery.unity</span><br><span class="line">        └── Billboard.unity</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">(2)</span><br><span class="line">.</span><br><span class="line">├── Billboard</span><br><span class="line">│   ├── Prefabs</span><br><span class="line">│   │   ├── Arrow.prefab</span><br><span class="line">│   │   └── Billboarder.prefab</span><br><span class="line">│   ├── Scripts</span><br><span class="line">│   │   ├── BillboardController.cs</span><br><span class="line">│   │   └── CameraController.cs</span><br><span class="line">│   └── Scenes</span><br><span class="line">│       └── Billboard.unity</span><br><span class="line">└── Gallery</span><br><span class="line">    ├── Prefabs</span><br><span class="line">    │   ├── Arrow.prefab </span><br><span class="line">    │   └── PicWrapper.prefab</span><br><span class="line">	├── Resources</span><br><span class="line">	│   └── Pictures</span><br><span class="line">	│       └── Background</span><br><span class="line">    ├── Scripts</span><br><span class="line">    │   ├── Gallery.cs</span><br><span class="line">    │   └── SceneGenerator.cs</span><br><span class="line">    └── Scenes</span><br><span class="line">        └── Gallery.unity</span><br></pre></td></tr></table></figure>
+<p><strong>第一种方式并不改变Assets的一级结构，而是在一级结构里面建立各个项目的子文件夹，在子文件夹中分别存放这些资源。</strong><br>
+<strong>第二种方法将每一个资源都统一成一个文件集合，并在文件集合中再对其进行分类存放。</strong></p>
+<p>然而，这两种方法都存在缺陷，第一种保证了Assets调用的逻辑（就像垃圾分类），并且可以很好的导入并不破坏目标文件夹的复用性，但同时破坏了其封装性。而第二种，完美的表示了每一个项目的封装性，可以快速导出资源并不破坏目标文件夹的可维护性，但同时破坏了其复用性以及导致了一些复用资源的空间浪费问题。</p>
+<h3 id="finale"><a class="markdownIt-Anchor" href="#finale"></a> Finale</h3>
+<p>让我们回归Unity文件系统本身，重新回顾第一章发现，由于存在那些只能在特定位置建立的特殊文件夹，完全参照任何一种方案是不可能的。</p>
+<p>那么，存不存在一种合理的方式，可以最大限度的保证其封装性，又能实现其复用可行性呢？答案很显然。</p>
+<p>在此，我们引入<strong>Public</strong>文件夹，将一些公共的资源统一的，存放到这个文件夹中，同时，在沿用(2)方式的基础上，将那些需要特定建立的特殊文件夹（例如: <strong>StreamingAssets</strong>）内部使用（1）方式来存放资源，如图：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── *StreamingAssets*</span><br><span class="line">│   ├── Gallery</span><br><span class="line">│   │   └── data.json</span><br><span class="line">│   └── Billboard</span><br><span class="line">│       └── data.json</span><br><span class="line">├── *Public*</span><br><span class="line">│   └── Prefabs</span><br><span class="line">│       └── Arrow.prefab</span><br><span class="line">├── Billboard</span><br><span class="line">│   ├── Prefabs</span><br><span class="line">│   │   └── Billboarder.prefab</span><br><span class="line">│   ├── Scripts</span><br><span class="line">│   │   ├── BillboardController.cs</span><br><span class="line">│   │   └── CameraController.cs</span><br><span class="line">│   └── Scenes</span><br><span class="line">│       └── Billboard.unity</span><br><span class="line">└── Gallery</span><br><span class="line">    ├── Prefabs</span><br><span class="line">    │   └── PicWrapper.prefab</span><br><span class="line">	├── Resources</span><br><span class="line">	│   └── Pictures</span><br><span class="line">	│       └── Background</span><br><span class="line">    ├── Scripts</span><br><span class="line">    │   ├── Gallery.cs</span><br><span class="line">    │   └── SceneGenerator.cs</span><br><span class="line">    └── Scenes</span><br><span class="line">        └── Gallery.unity</span><br></pre></td></tr></table></figure>
+<p>如此一来，在保证项目正常的高封装性和可运行的情况下，项目的导入导出的可维护性将大大增强。</p>
+<h2 id="some-details"><a class="markdownIt-Anchor" href="#some-details"></a> Some Details</h2>
+<h3 id="31-public-resources"><a class="markdownIt-Anchor" href="#31-public-resources"></a> §3.1. Public Resources</h3>
+<p>公共资源，顾名思义，是那些有多个项目用到的资源。公共资源在定义上更接近于C++中的基类，即任何非私有化的资源都应放在公共资源中。</p>
+<p>同时公共资源也相当于一个接口，该接口对美工开放，所有所需要的图片等资源均应存放于Public中。</p>
+<h3 id="32-input-package"><a class="markdownIt-Anchor" href="#32-input-package"></a> §3.2. Input Package</h3>
+<p>很多时候我们需要导入一些外部资源包，这些资源包跟项目一样，应该独立。</p>
+<h3 id="33-plural-form-and-others"><a class="markdownIt-Anchor" href="#33-plural-form-and-others"></a> §3.3. Plural form and Others</h3>
+<p>在文件夹的命名中，我们时常会碰到是否复数化的问题，例如三级文件夹中的：Prefab和Prefabs，Scene和Scenes等。针对这类问题，我们统一所有的一，二，三级文件夹必须以复数化的形式存在，在三级文件夹之后，不做明确的文件夹命名规范。</p>
+<p>同时，在导入导出的过程中，Unity会默认完全忽略以下命名方式的文件/文件夹：</p>
+<ul>
+<li>隐藏文件/文件夹</li>
+<li>以’.'为开始字符的文件/文件夹</li>
+<li>以’~'为开始字符的文件/文件夹</li>
+<li>以’cvs’命名的文件/文件夹</li>
+<li>扩展名为’.tmp’的的文件</li>
+</ul>
+<p>请务必留意。</p>
+<p>至此，我们完成了目录架构的规范化。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/15/CS_code_standard/" rel="next" title="C#代码规范">
+                <i class="fa fa-chevron-left"></i> C#代码规范
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/05/Gallery/" rel="prev" title="Gallery项目说明">
+                Gallery项目说明 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Patrick Fang">
+            
+              <p class="site-author-name" itemprop="name">Patrick Fang</p>
+              <p class="site-description motion-element" itemprop="description">How to introduce myself :)</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/returnhao" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fluctuation.h@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://instagram.com/return.hao" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#catelogue"><span class="nav-number">1.</span> <span class="nav-text"> Catelogue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#introduction"><span class="nav-number">2.</span> <span class="nav-text"> Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unity-folder-system"><span class="nav-number">3.</span> <span class="nav-text"> Unity Folder System</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#special-folder-name-system"><span class="nav-number">3.1.</span> <span class="nav-text"> Special Folder Name System</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#assets"><span class="nav-number">3.1.1.</span> <span class="nav-text"> Assets</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#editor"><span class="nav-number">3.1.2.</span> <span class="nav-text"> Editor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#plugins"><span class="nav-number">3.1.3.</span> <span class="nav-text"> Plugins</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#resources"><span class="nav-number">3.1.4.</span> <span class="nav-text"> Resources</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#streamingassets"><span class="nav-number">3.1.5.</span> <span class="nav-text"> StreamingAssets</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#associating-with-general-folder-name-system"><span class="nav-number">3.2.</span> <span class="nav-text"> Associating with General Folder Name System</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#directory-architecture-specification"><span class="nav-number">4.</span> <span class="nav-text"> Directory architecture specification</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#maintainability"><span class="nav-number">4.1.</span> <span class="nav-text"> Maintainability</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#unity-projects-maintainability"><span class="nav-number">4.2.</span> <span class="nav-text"> Unity Project’s maintainability</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#some-attempts"><span class="nav-number">4.3.</span> <span class="nav-text"> Some Attempts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#finale"><span class="nav-number">4.4.</span> <span class="nav-text"> Finale</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#some-details"><span class="nav-number">5.</span> <span class="nav-text"> Some Details</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#31-public-resources"><span class="nav-number">5.1.</span> <span class="nav-text"> §3.1. Public Resources</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#32-input-package"><span class="nav-number">5.2.</span> <span class="nav-text"> §3.2. Input Package</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#33-plural-form-and-others"><span class="nav-number">5.3.</span> <span class="nav-text"> §3.3. Plural form and Others</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Patrick Fang</span>
+
+  
+</div>
+
+
+
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

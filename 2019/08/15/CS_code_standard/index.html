@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<link href="https://cdn.bootcss.com/KaTeX/0.7.1/katex.min.css" rel="stylesheet">
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="代码规范有很多，各个规范之间并没有明显的高下之分。本规范制定的主要目的是统一标准，完善团队协作、提高沟通效率。在使用过程中，如果大家还遇到本规范不能解决的问题，欢迎发邮件跟作者讨论。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C#代码规范">
+<meta property="og:url" content="http://returnhao.github.io/2019/08/15/CS_code_standard/index.html">
+<meta property="og:site_name" content="Return&#39;s Blog">
+<meta property="og:description" content="代码规范有很多，各个规范之间并没有明显的高下之分。本规范制定的主要目的是统一标准，完善团队协作、提高沟通效率。在使用过程中，如果大家还遇到本规范不能解决的问题，欢迎发邮件跟作者讨论。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-09-04T02:20:42.008Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C#代码规范">
+<meta name="twitter:description" content="代码规范有很多，各个规范之间并没有明显的高下之分。本规范制定的主要目的是统一标准，完善团队协作、提高沟通效率。在使用过程中，如果大家还遇到本规范不能解决的问题，欢迎发邮件跟作者讨论。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://returnhao.github.io/2019/08/15/CS_code_standard/">
+
+
+
+
+
+  <title>C#代码规范 | Return's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Return's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://returnhao.github.io/2019/08/15/CS_code_standard/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Patrick Fang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Return's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C#代码规范</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-15T15:18:58+09:00">
+                2019-08-15
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2019-09-04T11:20:42+09:00">
+                2019-09-04
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Standard/" itemprop="url" rel="index">
+                    <span itemprop="name">Standard</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Standard/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C#</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>代码规范有很多，各个规范之间并没有明显的高下之分。本规范制定的主要目的是统一标准，完善团队协作、提高沟通效率。在使用过程中，如果大家还遇到本规范不能解决的问题，欢迎发邮件跟作者讨论。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="catelogue"><a class="markdownIt-Anchor" href="#catelogue"></a> Catelogue</h2>
+<ul>
+<li>§1. 命名规则
+<ul>
+<li>§1.1 术语定义</li>
+<li>§1.2 命名规则</li>
+</ul>
+</li>
+<li>§2. 格式标准
+<ul>
+<li>§2.1 域定义</li>
+<li>§2.2 格式</li>
+</ul>
+</li>
+<li>§3 注释方案
+<ul>
+<li>§3.1 注释概述</li>
+<li>§3.2 注释分类</li>
+</ul>
+</li>
+<li>§4 补充注意事项
+<ul>
+<li>§4.1 声明规则</li>
+</ul>
+</li>
+</ul>
+<h2 id="命名规则"><a class="markdownIt-Anchor" href="#命名规则"></a> 命名规则</h2>
+<h3 id="术语定义"><a class="markdownIt-Anchor" href="#术语定义"></a> 术语定义</h3>
+<p><strong>Pascal命名方法</strong>：将标识符的首字母和后面连接的每个单词的首字母都大写。例如：<code>PascalRule</code>，简记为<em>Pascal法</em>。</p>
+<p><strong>Camel命名方法</strong>：标识符首字母小写，而后面每个连接的单词都大写。例如：<code>camelRule</code>，简记为<em>Camel法</em>。</p>
+<h3 id="命名规则-2"><a class="markdownIt-Anchor" href="#命名规则-2"></a> 命名规则</h3>
+<p><strong>文件命名</strong>：遵循Pascal法，扩展名为<code>.cs</code>。</p>
+<p><strong>类、方法、枚举、属性、事件、接口</strong>：遵循Pascal法。</p>
+<p><strong>变量、参数</strong>：遵循Camel法。</p>
+<p><strong>常量</strong>：所有字母都是大写，单词间用下划线连接。例如：<code>public const int AGE_OF_PERSON = 20;</code></p>
+<p>命名尽量使用简明扼要的英文关键词表述，布尔变量需使用<code>is</code>开头，这样可以明确含义。对于函数局部循环变量可以使用<code>i，j，k</code>，如果有明确含义的变量应尽量使用命名表述清楚。</p>
+<h2 id="格式标准"><a class="markdownIt-Anchor" href="#格式标准"></a> 格式标准</h2>
+<h3 id="域定义"><a class="markdownIt-Anchor" href="#域定义"></a> 域定义</h3>
+<p><strong>命名空间</strong>：对于大型项目的多人协作，为了避免多人之间的命名冲突，必须使用命名空间限定，示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">namespace Com.Company.ProductName</span><br><span class="line">&#123;</span><br><span class="line">    // your code here</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">namespace Com.Sunny.HelloAR</span><br><span class="line">&#123;</span><br><span class="line">    // your code here</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>代码域管理</strong>：对于比较长的代码，为了增强可读性，需要将不同属性的区域使用域折叠分隔开，示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#region Public Properties</span><br><span class="line">// code here</span><br><span class="line">#endregion</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#region Private Properties</span><br><span class="line">// code here</span><br><span class="line">#endregion</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#region Public Methods</span><br><span class="line">// code here</span><br><span class="line">#endregion</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#region Private Methods</span><br><span class="line">// code here</span><br><span class="line">#endregion</span><br></pre></td></tr></table></figure>
+<h3 id="格式"><a class="markdownIt-Anchor" href="#格式"></a> 格式</h3>
+<p><strong>空格</strong>：一元操作符不需要空格，二元操作符前后都要空格，方法括号间不要空格，逗号之后空格，同行表达式之间空格，一般括号前空格，示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">flag = !isReal; // 一元操作符不空格</span><br><span class="line"></span><br><span class="line">c = a + b; // 二元操作符前后空格</span><br><span class="line"></span><br><span class="line">Open(a, b, c); // 方法括号间不要空格，逗号之后空格</span><br><span class="line"></span><br><span class="line">for (int i = 0; i &lt; 5; i++) // 同行表达式之间空格，一般括号前空格</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>换行</strong>：当表达式超出合适列宽，遵循以下换行规则。逗号之后换行，操作符之前换行，不要分隔语义，也可以按照实际情况以整体美观为基础换行，换行之后留两个空格增强逻辑美观效果，示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">if (PlayerUiPrefab != null)</span><br><span class="line">&#123;</span><br><span class="line">    GameObject uiGo =  Instantiate(PlayerUiPrefab) as GameObject;</span><br><span class="line">    </span><br><span class="line">    // 在不破坏逻辑前提下，优先以美观为主。</span><br><span class="line">    uiGo.SendMessage(&quot;SetTarget&quot;,</span><br><span class="line">      this, SendMessageOptions.RequireReceiver); // 行前留两个空格</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>缩进</strong>：缩进主要分为逻辑缩进和换行缩进两种。换行缩进详见上文，逻辑缩进一般是为了显示层次关系，让代码更清楚地表示层次关系，逻辑缩进以四个空格表述（一个制表位与四个空格是等价的，但是为了不同编辑器之间格式兼容性请严格使用四个空格而不要使用Tab键），请在开始使用编辑器的时候先确保其缩进采用四个空格表述。示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">for (int i = 0; i &lt; 3; i++)</span><br><span class="line">&#123;</span><br><span class="line">    if (a &lt; 5)</span><br><span class="line">    &#123;</span><br><span class="line">        b = a;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>空行</strong>：空行的主要目的是为了将逻辑代码块区分，增强可读性。一般来讲，类、枚举、接口的定义之间需要空***两行***；属性、方法等不同的逻辑快之间需要空***一行***；注释与其注释的语句之间***不空行***，但与其他的语句之间***空一行***。</p>
+<h2 id="注释方案"><a class="markdownIt-Anchor" href="#注释方案"></a> 注释方案</h2>
+<h3 id="注释概述"><a class="markdownIt-Anchor" href="#注释概述"></a> 注释概述</h3>
+<p><strong>目的</strong>：注释的目的是为了提高代码可读性，因此无意义或容易产生歧义的注释是必须坚决避免的。</p>
+<p><strong>原则</strong>：初次编写代码时就要及时写好注释（因为你很有可能后面不会再有时间去注释，或者过一段时间会忘记）；每次代码的修改后，都必须更新注释，确保注释准确；注释请严格按照统一的风格和标准，保持代码高可读性。</p>
+<h3 id="注释分类"><a class="markdownIt-Anchor" href="#注释分类"></a> 注释分类</h3>
+<p><strong>文档型注释</strong>：采用.Net定义的XML标签来标记，可以产生鼠标悬停显示注释的效果。声明类、接口、方法、属性、字段等<br>
+都需要使用文档型注释。示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// your comments here</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">private string gameVersion = &quot;1.0&quot;;</span><br></pre></td></tr></table></figure>
+<p><strong>段落注释（类C注释）</strong>：用于多行代码临时屏蔽，或者不再使用的代码段落。示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">your code here</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+<p><strong>单行注释</strong>：用于简单的注释语句，也可以用于多行注释，但是这种注释仅限于转到定义处浏览，而不能实现鼠标悬停提示效果，可以在上一行或者行尾注释。示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// your comments here</span><br><span class="line">private int number;</span><br><span class="line"></span><br><span class="line">public float length; // your comments here</span><br></pre></td></tr></table></figure>
+<h2 id="补充注意事项"><a class="markdownIt-Anchor" href="#补充注意事项"></a> 补充注意事项</h2>
+<h3 id="声明规则"><a class="markdownIt-Anchor" href="#声明规则"></a> 声明规则</h3>
+<p><strong>单行单量原则</strong>：每一行只能声明一个函数、变量或常量，如果有多个属性相同的量进行声明，应该另起一行。示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// recommented method</span><br><span class="line">int a;</span><br><span class="line">int b;</span><br><span class="line"></span><br><span class="line">// although no error, please avoid this method.</span><br><span class="line">int a, b;</span><br></pre></td></tr></table></figure>
+<p><strong>集中声明原则</strong>：全局量应该在类的开始处分块（按照public、protected、private属性）定义，局部量应该在作用域开始时分块定义。例外情况，对于局部循环变量可以在循环开始处定义，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for (int i = 0; i &lt; 4; i++) // only this case is appropriate</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<br>
+End!
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/13/How to set Hololens to a live camera/" rel="next" title="HoloUnity - How to set Hololens to a live camera of Unity">
+                <i class="fa fa-chevron-left"></i> HoloUnity - How to set Hololens to a live camera of Unity
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/21/Unity_directory_architecture_Standard/" rel="prev" title="Unity目录架构规范">
+                Unity目录架构规范 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Patrick Fang">
+            
+              <p class="site-author-name" itemprop="name">Patrick Fang</p>
+              <p class="site-description motion-element" itemprop="description">How to introduce myself :)</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/returnhao" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fluctuation.h@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://instagram.com/return.hao" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#catelogue"><span class="nav-number">1.</span> <span class="nav-text"> Catelogue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命名规则"><span class="nav-number">2.</span> <span class="nav-text"> 命名规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#术语定义"><span class="nav-number">2.1.</span> <span class="nav-text"> 术语定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命名规则-2"><span class="nav-number">2.2.</span> <span class="nav-text"> 命名规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#格式标准"><span class="nav-number">3.</span> <span class="nav-text"> 格式标准</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#域定义"><span class="nav-number">3.1.</span> <span class="nav-text"> 域定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#格式"><span class="nav-number">3.2.</span> <span class="nav-text"> 格式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注释方案"><span class="nav-number">4.</span> <span class="nav-text"> 注释方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注释概述"><span class="nav-number">4.1.</span> <span class="nav-text"> 注释概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注释分类"><span class="nav-number">4.2.</span> <span class="nav-text"> 注释分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充注意事项"><span class="nav-number">5.</span> <span class="nav-text"> 补充注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#声明规则"><span class="nav-number">5.1.</span> <span class="nav-text"> 声明规则</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Patrick Fang</span>
+
+  
+</div>
+
+
+
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
